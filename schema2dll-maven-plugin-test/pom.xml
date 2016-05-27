@@ -24,9 +24,26 @@
           <execution>
             <goals>
               <goal>schema2ddl</goal>
+              <!--
+              <goal>test-connection</goal>
+              <goal>schema2ddl</goal>
+              -->
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <dbUrl>scott/tiger@localhost:1521/XE</dbUrl>
+          <!--
+          <outputDirectory>outputDirectory</outputDirectory>
+          <parallelThreads>4</parallelThreads>
+          <configPath>configPath</configPath>
+          <filter>filter</filter>
+          <typeFilter>typeFilter</typeFilter>
+          <typeFilterMode>typeFilterMode</typeFilterMode>
+          <stopOnWarning>false</stopOnWarning>
+          <replaceSequenceValues>true</replaceSequenceValues>
+          -->
+        </configuration>
       </plugin>
     </plugins>
   </build>
