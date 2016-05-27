@@ -1,0 +1,3 @@
+[submodule "scheme2ddl"]
+	path = scheme2ddl
+	url = https://github.com/markmclaren/scheme2ddl.git
