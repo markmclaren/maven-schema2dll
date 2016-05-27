@@ -32,10 +32,22 @@ public abstract class AbstractSchema2dllMojo extends AbstractMojo {
   private final static String defaultConfigLocation = "scheme2ddl.config.xml";
 
   /**
-   * Database connection URL (e.g. scott/tiger@localhost:1521/ORCL)
+   * JDBC connection URL (e.g. jdbc:oracle:thin:@localhost:1521/ORCL)
    */
-  @Parameter
-  String dbUrl;
+  @Parameter(required = true)
+  String jdbcUrl;
+
+  /**
+   * Database username (e.g. scott)
+   */
+  @Parameter(required = true)
+  String username;
+
+  /**
+   * Database password (e.g. tiger)
+   */
+  @Parameter(required = true)
+  String password;
 
   /**
    * Output directory
@@ -108,16 +120,11 @@ public abstract class AbstractSchema2dllMojo extends AbstractMojo {
   }
 
   void modifyContext(final ConfigurableApplicationContext context) {
-    if (dbUrl != null) {
-      String url = "jdbc:oracle:thin:" + dbUrl;
-      String user = extractUserfromDbUrl(dbUrl);
-      String password = extractPasswordfromDbUrl(dbUrl);
-      OracleDataSource dataSource = (OracleDataSource) context.getBean("dataSource");
-      dataSource.setURL(url);
-      // for OracleDataSource in connectionCachingEnabled mode need explicitly set user and password
-      dataSource.setUser(user);
-      dataSource.setPassword(password);
-    }
+    OracleDataSource dataSource = (OracleDataSource) context.getBean("dataSource");
+    dataSource.setURL(jdbcUrl);
+    // for OracleDataSource in connectionCachingEnabled mode need explicitly set user and password
+    dataSource.setUser(username);
+    dataSource.setPassword(password);
     if (outputPath != null) {
       UserObjectWriter writer = (UserObjectWriter) context.getBean("writer");
       writer.setOutputPath(outputPath);
@@ -244,15 +251,6 @@ public abstract class AbstractSchema2dllMojo extends AbstractMojo {
       userObjectProcessor.setFileNameConstructor(fileNameConstructor);
     }
     return fileNameConstructor;
-  }
-
-  private static String extractUserfromDbUrl(String dbUrl) {
-    return dbUrl.split("/")[0];
-  }
-
-  private static String extractPasswordfromDbUrl(String dbUrl) {
-    //scott/tiger@localhost:1521:ORCL
-    return dbUrl.split("/|@")[1];
   }
 
   void validateContext(final ConfigurableApplicationContext context) {

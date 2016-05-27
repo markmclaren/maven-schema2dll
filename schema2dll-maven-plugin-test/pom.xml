@@ -32,7 +32,9 @@
           </execution>
         </executions>
         <configuration>
-          <dbUrl>scott/tiger@localhost:1521/XE</dbUrl>
+          <jdbcUrl>jdbc:oracle:thin:@localhost:1521/XE</jdbcUrl>
+          <username>scott</username>
+          <password>tiger</password>
           <!--
           <outputDirectory>outputDirectory</outputDirectory>
           <parallelThreads>4</parallelThreads>
