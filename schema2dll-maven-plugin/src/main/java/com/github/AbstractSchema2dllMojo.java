@@ -22,7 +22,6 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.util.Assert;
 
-import static com.googlecode.scheme2ddl.Main.outputPath;
 import static com.googlecode.scheme2ddl.Main.parallelCount;
 
 public abstract class AbstractSchema2dllMojo extends AbstractMojo {
@@ -125,9 +124,9 @@ public abstract class AbstractSchema2dllMojo extends AbstractMojo {
     // for OracleDataSource in connectionCachingEnabled mode need explicitly set user and password
     dataSource.setUser(username);
     dataSource.setPassword(password);
-    if (outputPath != null) {
+    if (outputDirectory != null) {
       UserObjectWriter writer = (UserObjectWriter) context.getBean("writer");
-      writer.setOutputPath(outputPath);
+      writer.setOutputPath(outputDirectory);
     }
     if (parallelCount > 0) {
       SimpleAsyncTaskExecutor taskExecutor = (SimpleAsyncTaskExecutor) context.getBean(
